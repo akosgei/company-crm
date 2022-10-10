@@ -1,8 +1,10 @@
 package com.helpscout.review.rules;
 
 import com.helpscout.review.entity.Company;
+import com.helpscout.review.entity.DuplicateThread;
 import com.helpscout.review.entity.Thread;
 import com.helpscout.review.exception.ApplicationActivityException;
+import com.helpscout.review.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,11 @@ public class RemoveDuplicateThreadsRule implements BusinessRules<Company> {
         try {
             companies.forEach(company -> company.getConversations().forEach(conversation -> {
                 Map<String, Thread> stringThreadEntry = new HashMap<>();
-                Map<String, Thread> duplicateThreadEntry = new HashMap<>();
+                Map<String, DuplicateThread> duplicateThreadEntry = new HashMap<>();
+
                 conversation.getThreads().forEach(thread -> {
                     if (stringThreadEntry.containsKey(thread.getPayload())) { //check for a duplicate entry
-                        duplicateThreadEntry.put(thread.getPayload(), thread);
+                        duplicateThreadEntry.put(thread.getPayload(), ModelMapperUtil.convertDtoToEntity(thread, DuplicateThread.class));
                     } else {
                         stringThreadEntry.put(thread.getPayload(), thread);
                     }

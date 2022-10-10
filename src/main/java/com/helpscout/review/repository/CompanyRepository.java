@@ -16,9 +16,12 @@ public interface CompanyRepository extends PagingAndSortingRepository<Company, L
             "  where com.company_primary_key = :company_id group by com.name ,conv.user_id")
     List<CompanyPopularUserDto> retrieveCompanyConversationSummaryByCompanyId(@Param("company_id") Long companyId);
 
+    //interface based projection
     interface CompanyPopularUserDto {
         String getCompanyName();
+
         Integer getThreadCount();
+
         Integer getMostPopularUser();
     }
 }
