@@ -16,6 +16,7 @@ public class Conversation {
     private Long ConversationId;
     private Long id;
     private Set<Thread> threads = new HashSet<>();
+    private Set<Thread> duplicateThreads = new HashSet<>();
     @Transient
     Company company;
 }
