@@ -10,14 +10,12 @@ import com.helpscout.review.rules.BusinessRules;
 import com.helpscout.review.rules.configuration.BusinessRulesConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -62,13 +60,13 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public CompanySummaryDto viewCompanySummary(Long companyId) {
-        List<CompanyRepository.CompanyPopularUserDto> companySummaryResult = companyRepository.retrieveCompanyConversationSummaryByCompanyId(companyId);
+        List<CompanySummaryDto> companySummaryResult = companyRepository.retrieveCompanyConversationSummaryByCompanyId(companyId);
         if (companySummaryResult.isEmpty()) {
             log.error("Company with supplied id, {} does not exist.", companyId);
             throw new ApplicationActivityException(ApplicationErrorMessages.COMPANY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
         Map<Integer, List<Integer>> threadToUserMap = companySummaryResult.stream()
-                .collect(groupingBy(CompanyRepository.CompanyPopularUserDto::getThreadCount, mapping(CompanyRepository.CompanyPopularUserDto::getMostPopularUser, toList())));
+                .collect(groupingBy(CompanySummaryDto::getThreadCount, mapping((CompanySummaryDto companySummaryDto) -> Integer.valueOf(companySummaryDto.getMostPopularUser()), toList())));
 
         List<Integer> popularUser = threadToUserMap
                 .entrySet()
@@ -77,10 +75,9 @@ public class CompanyService implements ICompanyService {
                 .map(Map.Entry::getValue)
                 .orElseThrow(() -> new ApplicationActivityException(ApplicationErrorMessages.DATA_INTEGRITY_ERROR, HttpStatus.INTERNAL_SERVER_ERROR));
 
-
         return CompanySummaryDto.builder()
                 .companyName(companySummaryResult.get(0).getCompanyName()) // the company will always be the same
-                .conversationCount(companySummaryResult.size())
-                .mostPopularUser(popularUser.stream().map(String::valueOf).collect(Collectors.joining(","))).build();
+                .threadCount(companySummaryResult.size())
+                .mostPopularUser(popularUser.stream().map(Object::toString).collect(joining(","))).build();
     }
 }
