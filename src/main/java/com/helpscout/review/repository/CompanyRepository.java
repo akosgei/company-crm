@@ -16,13 +16,4 @@ public interface CompanyRepository extends PagingAndSortingRepository<Company, L
             " left join thread th on conv.conversation_id = th.conversation" +
             "  where com.company_id = :company_id group by com.name ,conv.user_id")
     List<CompanySummaryDto> retrieveCompanyConversationSummaryByCompanyId(@Param("company_id") Long companyId);
-
-    //interface based projection
-    interface CompanyPopularUserDto {
-        String getCompanyName();
-
-        Integer getThreadCount();
-
-        Integer getMostPopularUser();
-    }
 }
