@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class ImportControllerTest {
+class CompanyControllerIT {
 
     @BeforeEach
     fun setBaseUrl() {
@@ -22,10 +22,9 @@ class ImportControllerTest {
             .body(jsonFile("companies.json"))
             .contentType(JSON)
             .post("/company/import")
-        .then()
+            .then()
             .statusCode(200)
     }
 
     private fun jsonFile(name: String) = this::class.java.getResource("/$name").readText()
-
 }

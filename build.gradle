@@ -54,3 +54,9 @@ compileTestKotlin {
         jvmTarget = "11"
     }
 }
+
+sourceSets {
+    tests {
+        java.srcDirs = ['src/test/java/unit', 'src/test/java/integration']
+    }
+}
