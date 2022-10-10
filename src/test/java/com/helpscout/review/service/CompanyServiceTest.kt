@@ -1,14 +1,14 @@
-package com.company.crm.review.rules
+package com.helpscout.review.service
 
-import com.company.crm.review.domain.CompanyDto
-import com.company.crm.review.domain.CompanyDto.ConversationDto
-import com.company.crm.review.domain.CompanyDto.ConversationDto.ThreadDto
+import com.helpscout.review.entity.Company
+import com.helpscout.review.entity.Conversation
+import com.helpscout.review.entity.Thread
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
-class RemoveDuplicateThreadsRuleTest {
+class CompanyServiceTest {
     
-    private val removeDuplicateThreadsRuleService = RemoveDuplicateThreadsRule()
+    private val companyService = CompanyService()
     
     @Test
     fun `should remove duplicate threads`() {
@@ -29,7 +29,7 @@ class RemoveDuplicateThreadsRuleTest {
             )
         )
 
-        removeDuplicateThreadsRuleService.execute(companies)
+        companyService.removeDuplicateThreads(companies)
 
         assertThat(companies)
                 .flatExtracting("conversations")
@@ -38,18 +38,18 @@ class RemoveDuplicateThreadsRuleTest {
                 .containsExactly(101L, 103L, 201L, 202L)
     }
 
-    private fun company(id: Long, vararg conversations: ConversationDto) = CompanyDto().apply {
+    private fun company(id: Long, vararg conversations: Conversation) = Company().apply {
         this.id = id
         this.name = "Company $id"
-        this.conversations = listOf(*conversations)
+        this.conversations = setOf(*conversations)
     }
 
-    private fun conversation(id: Long, vararg threads: ThreadDto) = ConversationDto().apply {
+    private fun conversation(id: Long, vararg threads: Thread) = Conversation().apply {
         this.id = id
-        this.threads = listOf(*threads)
+        this.threads = setOf(*threads)
     }
 
-    private fun thread(id: Long, payload: String) = ThreadDto().apply {
+    private fun thread(id: Long, payload: String) = Thread().apply {
         this.id = id
         this.payload = payload
     }
