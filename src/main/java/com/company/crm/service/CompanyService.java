@@ -58,7 +58,7 @@ public class CompanyService implements ICompanyService {
 
 
     @Override
-    public CompanySummaryDto viewCompanySummary(Long companyId) {
+    public CompanySummaryDto viewCompanySummaryDetails(Long companyId) {
         List<CompanySummaryDto> companySummaryResult = companyRepository.retrieveCompanyConversationSummaryByCompanyId(companyId);
         if (companySummaryResult.isEmpty()) {
             log.error("Company with supplied id, {} does not exist.", companyId);

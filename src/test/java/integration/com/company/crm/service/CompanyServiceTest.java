@@ -93,17 +93,17 @@ class CompanyServiceTest {
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     void testViewCompanySummary() {
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any())).thenReturn(new ArrayList<>());
-        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummary(123L));
+        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummaryDetails(123L));
         verify(companyRepository).retrieveCompanyConversationSummaryByCompanyId((Long) any());
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -133,22 +133,22 @@ class CompanyServiceTest {
         companySummaryDtoList.add(new CompanySummaryDto());
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenReturn(companySummaryDtoList);
-        companyService.viewCompanySummary(123L);
+        companyService.viewCompanySummaryDetails(123L);
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     void testViewCompanySummary3() {
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenThrow(new ApplicationActivityException(ApplicationErrorMessages.COMPANY_NOT_FOUND, HttpStatus.CONTINUE));
-        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummary(123L));
+        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummaryDetails(123L));
         verify(companyRepository).retrieveCompanyConversationSummaryByCompanyId((Long) any());
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -182,11 +182,11 @@ class CompanyServiceTest {
         companySummaryDtoList.add(new CompanySummaryDto("Company Name", 3, "Most Popular User"));
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenReturn(companySummaryDtoList);
-        companyService.viewCompanySummary(123L);
+        companyService.viewCompanySummaryDetails(123L);
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -224,11 +224,11 @@ class CompanyServiceTest {
         companySummaryDtoList.add(companySummaryDto);
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenReturn(companySummaryDtoList);
-        companyService.viewCompanySummary(123L);
+        companyService.viewCompanySummaryDetails(123L);
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     void testViewCompanySummary6() {
@@ -241,7 +241,7 @@ class CompanyServiceTest {
         companySummaryDtoList.add(companySummaryDto);
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenReturn(companySummaryDtoList);
-        CompanySummaryDto actualViewCompanySummaryResult = companyService.viewCompanySummary(123L);
+        CompanySummaryDto actualViewCompanySummaryResult = companyService.viewCompanySummaryDetails(123L);
         assertEquals("Company Name", actualViewCompanySummaryResult.getCompanyName());
         assertEquals(1, actualViewCompanySummaryResult.getThreadCount().intValue());
         assertEquals("42", actualViewCompanySummaryResult.getMostPopularUser());
@@ -252,7 +252,7 @@ class CompanyServiceTest {
     }
 
     /**
-     * Method under test: {@link CompanyService#viewCompanySummary(Long)}
+     * Method under test: {@link CompanyService#viewCompanySummaryDetails(Long)}
      */
     @Test
     void testViewCompanySummary7() {
@@ -266,7 +266,7 @@ class CompanyServiceTest {
         companySummaryDtoList.add(companySummaryDto);
         when(companyRepository.retrieveCompanyConversationSummaryByCompanyId((Long) any()))
                 .thenReturn(companySummaryDtoList);
-        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummary(123L));
+        assertThrows(ApplicationActivityException.class, () -> companyService.viewCompanySummaryDetails(123L));
         verify(companyRepository).retrieveCompanyConversationSummaryByCompanyId((Long) any());
         verify(companySummaryDto).getThreadCount();
         verify(companySummaryDto).getCompanyName();

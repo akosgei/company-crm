@@ -9,5 +9,5 @@ import java.util.List;
 public interface ICompanyService {
     List<Company> save(List<Company> companyDto);
 
-    CompanySummaryDto viewCompanySummary(Long companyId);
+    CompanySummaryDto viewCompanySummaryDetails(Long companyId);
 }

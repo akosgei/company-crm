@@ -31,6 +31,6 @@ public class CompanyController {
 
     @GetMapping("summary/{companyId}")
     public CompanySummaryDto viewCompanySummary(@PathVariable("companyId") Long companyId) {
-        return companyService.viewCompanySummary(companyId);
+        return companyService.viewCompanySummaryDetails(companyId);
     }
 }

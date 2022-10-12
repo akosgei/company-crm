@@ -45,6 +45,5 @@ public class ResourceExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
     }
 }
