@@ -57,7 +57,7 @@ compileTestKotlin {
 }
 
 sourceSets {
-    tests {
+    test {
         java.srcDirs = ['src/test/java/unit', 'src/test/java/integration']
     }
 }
