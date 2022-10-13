@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @DataJdbcTest
 public class CompanyRepositoryIntegrationTest {
@@ -23,7 +24,6 @@ public class CompanyRepositoryIntegrationTest {
 
     @Test
     public void testWhenGivenValidCompanyIdCompanySummaryIsReturned() {
-
         //given
         Thread thread1 = Thread.builder()
                 .id(22563L)
@@ -74,5 +74,33 @@ public class CompanyRepositoryIntegrationTest {
         assertThat(response.get(0).getThreadCount()).isEqualTo(3);
         assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
         assertThat(response.get(1).getThreadCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void testWhenInvalidCompanyIdIsPassedEmptyResponseIsReturned() {
+        //given
+        Thread thread1 = Thread.builder()
+                .id(22563L)
+                .payload("some payload one")
+                .build();
+        Conversation conversation1 = Conversation.builder()
+                .id(111L)
+                .from("demo_one@mail.com")
+                .received(LocalDateTime.now())
+                .number(1964L)
+                .userId(333L)
+                .threads(Set.of(thread1))
+                .build();
+        Company company = com.company.crm.entity.Company.builder()
+                .id(1L)
+                .name("companyXyz")
+                .signedUp(LocalDateTime.now())
+                .conversations(Set.of(conversation1))
+                .build();
+        repositoryUnderTest.save(company);
+        //when
+        List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1234L);
+        //then
+        assertThat(response).isEmpty();
     }
 }
