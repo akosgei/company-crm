@@ -7,20 +7,21 @@ import com.company.crm.entity.Thread;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DataJdbcTest
 public class CompanyRepositoryIntegrationTest {
 
     @Autowired
     CompanyRepository repositoryUnderTest;
-
 
     @Test
     public void testWhenGivenValidCompanyIdCompanySummaryIsReturned() {
@@ -102,5 +103,24 @@ public class CompanyRepositoryIntegrationTest {
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1234L);
         //then
         assertThat(response).isEmpty();
+    }
+
+    @Test
+    public void testThatWhenCompanyWithoutConversationsIsPersistedEmptyResponseIsReturned() {
+        //given
+        Company company = com.company.crm.entity.Company.builder()
+                .id(1L)
+                .name("companyXyz")
+                .signedUp(LocalDateTime.now())
+                .conversations(Collections.emptySet())
+                .build();
+        repositoryUnderTest.save(company);
+
+        //when
+        List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
+        //then
+        assertThat(1).isEqualTo(response.size());
+        assertThat(0).isEqualTo(response.get(0).getThreadCount());
+        assertThat(response.get(0).getMostPopularUser()).isNullOrEmpty();
     }
 }
