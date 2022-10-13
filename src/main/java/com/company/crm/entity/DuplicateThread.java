@@ -1,14 +1,14 @@
 package com.company.crm.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DuplicateThread {
     @Id
     private Long duplicateThreadId;
