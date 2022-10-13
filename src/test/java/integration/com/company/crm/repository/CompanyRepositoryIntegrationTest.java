@@ -24,7 +24,7 @@ public class CompanyRepositoryIntegrationTest {
     CompanyRepository repositoryUnderTest;
 
     @Test
-    public void testWhenGivenValidCompanyIdCompanySummaryIsReturned() {
+    public void testCompanyWithValidCompanyId() {
         //given
         Thread thread1 = Thread.builder()
                 .id(22563L)
@@ -78,7 +78,7 @@ public class CompanyRepositoryIntegrationTest {
     }
 
     @Test
-    public void testWhenInvalidCompanyIdIsPassedEmptyResponseIsReturned() {
+    public void testCompanyWithInvalidCompanyId() {
         //given
         Thread thread1 = Thread.builder()
                 .id(22563L)
@@ -106,7 +106,7 @@ public class CompanyRepositoryIntegrationTest {
     }
 
     @Test
-    public void testThatWhenCompanyWithoutConversationsIsPersistedEmptyResponseIsReturned() {
+    public void testCompanyWithoutConversation() {
         //given
         Company company = com.company.crm.entity.Company.builder()
                 .id(1L)
@@ -122,5 +122,33 @@ public class CompanyRepositoryIntegrationTest {
         assertThat(1).isEqualTo(response.size());
         assertThat(0).isEqualTo(response.get(0).getThreadCount());
         assertThat(response.get(0).getMostPopularUser()).isNullOrEmpty();
+    }
+
+    @Test
+    public void testCompanyConversationWithoutThreads() {
+        //given
+        Conversation conversation = Conversation.builder()
+                .id(111L)
+                .from("demo_one@mail.com")
+                .received(LocalDateTime.now())
+                .number(1964L)
+                .userId(333L)
+                .threads(Collections.emptySet())
+                .build();
+
+        Company company = com.company.crm.entity.Company.builder()
+                .id(222L)
+                .name("companyXyz")
+                .signedUp(LocalDateTime.now())
+                .conversations(Set.of(conversation))
+                .build();
+        repositoryUnderTest.save(company);
+
+        //when
+        List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
+        //then
+        assertThat(1).isEqualTo(response.size());
+        assertThat(1).isEqualTo(response.get(0).getThreadCount());
+        assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
     }
 }
