@@ -30,7 +30,6 @@ class RemoveDuplicateThreadsRuleTest {
      * given a valid company list with no conversations , the same company list should be returned as is.
      */
 
-    //testRemoveDuplicateThreadAndPopulateDuplicateThreadsCollection
     @Test
     public void testRemoveDuplicateThreadAndPopulateDuplicateThreadsCollection() {
         //given
@@ -64,8 +63,6 @@ class RemoveDuplicateThreadsRuleTest {
         assertThat(companies.get(0).getConversations().stream().findFirst().get().getThreads().size()).isEqualTo(1);
     }
 
-    //testNoDuplicateThreadsConversationListIsNotChanged()
-
     @Test
     public void testNoDuplicateThreadsConversationListIsNotChanged() {
         //given
@@ -96,13 +93,19 @@ class RemoveDuplicateThreadsRuleTest {
 
         removeDuplicateThreadsRule.execute(companies);
         assertThat(companies.get(0).getConversations().stream().findFirst().get().getDuplicateThreads().size()).isEqualTo(0);
+        assertThat(companies.get(0).getConversations().stream().findFirst().get().getThreads().size()).isEqualTo(2);
     }
-
-    //testCompanyWithNoConversationsListIsNotChanged
 
     @Test
     public void testCompanyWithNoConversationsListIsNotChanged() {
-
-
+        Company company = com.company.crm.entity.Company.builder()
+                .id(1L)
+                .name("companyXyz")
+                .signedUp(LocalDateTime.now())
+                .build();
+        List<Company> companies = new ArrayList<>(List.of(company));
+        removeDuplicateThreadsRule.execute(companies);
+        assertThat(companies.get(0).getConversations().stream().findFirst().isEmpty()).isEqualTo(true);
+        assertThat(companies.get(0).getConversations().stream().findFirst().isEmpty()).isEqualTo(true);
     }
 }

@@ -41,7 +41,7 @@ public class RemoveDuplicateThreadsRule implements BusinessRules<Company> {
                     }
                 });
                 if (!duplicateThreadEntry.isEmpty()) {
-                    company.setConversations(new HashSet<>());
+                    conversation.setThreads(new HashSet<>());
                     conversation.getDuplicateThreads().addAll(duplicateThreadEntry.values());
                     conversation.getThreads().addAll(stringThreadEntry.values());
                 }
