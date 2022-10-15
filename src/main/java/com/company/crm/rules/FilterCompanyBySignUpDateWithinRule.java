@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 @Slf4j
@@ -28,7 +30,7 @@ public class FilterCompanyBySignUpDateWithinRule implements BusinessRules<Compan
      * We will use stream api to iterate the company list to check if the signed-up date falls
      * within dates supplied in the {@link FilterCompanyBySignUpDateWithinRule#startDate} and  {@link FilterCompanyBySignUpDateWithinRule#endDate}
      * the predicate removeIf with filter out such companies that do not satisfy the above criteria.
-     * ie. RemoveIf should satisfy below predicate expressions
+     * ie: {@link Collection#removeIf(Predicate)} should satisfy below predicate expressions
      *
      * <li>company within the date range provided</>
      * <li>company has conversations</>
