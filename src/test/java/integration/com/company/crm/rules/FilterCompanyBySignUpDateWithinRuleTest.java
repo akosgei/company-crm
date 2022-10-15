@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ContextConfiguration(classes = {FilterCompanyBySignUpDateWithinRule.class})
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = {"crm.rule.filterSignUpDateFrom = 2017-12-31T23:59:58", "crm.rule.filterSignUpDateTo =2018-11-01T00:00:00"})
+@TestPropertySource(locations = "classpath:application.properties")
 class FilterCompanyBySignUpDateWithinRuleTest {
     /**
      * We initialize the Conversation object to be reused by multiple tests because the tests under control are determined by the presence of a conversation instance or not.
