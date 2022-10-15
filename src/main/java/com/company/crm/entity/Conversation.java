@@ -30,7 +30,9 @@ public class Conversation {
     @NotNull
     private LocalDateTime received;
 
+    @Builder.Default
     private Set<Thread> threads = new HashSet<>();
+    @Builder.Default
     private Set<DuplicateThread> duplicateThreads = new HashSet<>();
     @Transient
     Company company;

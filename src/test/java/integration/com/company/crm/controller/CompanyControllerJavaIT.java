@@ -41,7 +41,7 @@ public class CompanyControllerJavaIT {
         ResponseEntity<List<Company>> response = restTemplate.exchange("/company/import", HttpMethod.POST, requestPayload, new ParameterizedTypeReference<>() {
         });
 
-        //expected results
+        //then assert results
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

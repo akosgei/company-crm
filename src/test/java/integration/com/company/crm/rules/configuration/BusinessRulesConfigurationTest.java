@@ -19,7 +19,7 @@ class BusinessRulesConfigurationTest {
     private BusinessRulesConfiguration businessRulesConfiguration;
 
     @Autowired
-    private Set<BusinessRules<Company>> set;
+    private Set<BusinessRules<Company>> setOfBeans;
 
     /**
      * Method under test: {@link BusinessRulesConfiguration#findBusinessRule(BusinessRules.BusinessRule)}
@@ -36,8 +36,8 @@ class BusinessRulesConfigurationTest {
      */
     @Test
     void testFindBusinessRule2() {
-        Mockito.when(businessRulesConfiguration.findBusinessRule((BusinessRules.BusinessRule) Mockito.any())).thenReturn(businessRules);
+        Mockito.when(businessRulesConfiguration.findBusinessRule(Mockito.any())).thenReturn(businessRules);
         businessRulesConfiguration.findBusinessRule(BusinessRules.BusinessRule.REMOVE_DUPLICATE_THREADS_RULE);
-        Mockito.verify(businessRulesConfiguration).findBusinessRule((BusinessRules.BusinessRule) Mockito.any());
+        Mockito.verify(businessRulesConfiguration).findBusinessRule(Mockito.any());
     }
 }

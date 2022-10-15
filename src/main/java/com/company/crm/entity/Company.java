@@ -26,5 +26,6 @@ public class Company {
     private String name;
     @NotNull
     private LocalDateTime signedUp;
+    @Builder.Default // added to get rid of annoying error by build tool => "warning: @Builder will ignore the initializing expression entirely"
     private Set<Conversation> conversations = new HashSet<>();
 }
