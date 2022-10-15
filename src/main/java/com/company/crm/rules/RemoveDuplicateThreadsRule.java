@@ -39,8 +39,11 @@ public class RemoveDuplicateThreadsRule implements BusinessRules<Company> {
                         stringThreadEntry.put(thread.getPayload(), thread);
                     }
                 });
-                conversation.getDuplicateThreads().addAll(duplicateThreadEntry.values());
-                conversation.getThreads().addAll(stringThreadEntry.values());
+                if (!duplicateThreadEntry.isEmpty()) {
+                     company.getConversations().clear();
+                    conversation.getDuplicateThreads().addAll(duplicateThreadEntry.values());
+                    conversation.getThreads().addAll(stringThreadEntry.values());
+                }
             }));
         } catch (RuntimeException exception) {
             log.error("Error  removing duplicate threads, actual exception message is : {}", exception.getMessage(), exception);
