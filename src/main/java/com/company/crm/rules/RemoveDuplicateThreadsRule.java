@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class RemoveDuplicateThreadsRule implements BusinessRules<Company> {
                     }
                 });
                 if (!duplicateThreadEntry.isEmpty()) {
-                     company.getConversations().clear();
+                    company.setConversations(new HashSet<>());
                     conversation.getDuplicateThreads().addAll(duplicateThreadEntry.values());
                     conversation.getThreads().addAll(stringThreadEntry.values());
                 }
