@@ -1,11 +1,11 @@
 package com.company.crm.service;
 
 
+import com.company.crm.dto.CompanySummaryDto;
+import com.company.crm.entity.Company;
 import com.company.crm.exception.ApplicationActivityException;
 import com.company.crm.exception.ApplicationErrorMessages;
 import com.company.crm.repository.CompanyRepository;
-import com.company.crm.dto.CompanySummaryDto;
-import com.company.crm.entity.Company;
 import com.company.crm.rules.BusinessRules;
 import com.company.crm.rules.configuration.BusinessRulesConfiguration;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class CompanyService implements ICompanyService {
 
-    final Map<BusinessRules.BusinessRule, List<Company>> rulesToExecute = new LinkedHashMap<>();
+    final Map<BusinessRules.BusinessRule, List<Company>> rulesToExecute = new HashMap<>();
 
     private final CompanyRepository companyRepository;
     private final BusinessRulesConfiguration rulesConfiguration;
@@ -38,9 +38,6 @@ public class CompanyService implements ICompanyService {
 
         rulesToExecute.forEach((businessRule, payload) -> {
             BusinessRules<Company> rule = rulesConfiguration.findBusinessRule(businessRule);
-            if (rule == null) {
-                return;
-            }
             rule.execute(payload);
         });
     }
