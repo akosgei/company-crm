@@ -6,7 +6,6 @@ import com.company.crm.entity.DuplicateThread;
 import com.company.crm.entity.Thread;
 import com.company.crm.exception.ApplicationActivityException;
 import com.company.crm.exception.ApplicationErrorMessages;
-import com.company.crm.util.ModelMapperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,10 @@ public class RemoveDuplicateThreadsRule implements BusinessRules<Company> {
 
                 conversation.getThreads().forEach(thread -> {
                     if (stringThreadEntry.containsKey(thread.getPayload())) { //check for a duplicate entry
-                        duplicateThreadEntry.put(thread.getPayload(), ModelMapperUtil.convertDtoToEntity(thread, DuplicateThread.class));
+                        duplicateThreadEntry.put(thread.getPayload(), DuplicateThread.builder()
+                                .id(thread.getId())
+                                .payload(thread.getPayload())
+                                .build());
                     } else {
                         stringThreadEntry.put(thread.getPayload(), thread);
                     }

@@ -3,8 +3,8 @@ package com.company.crm.controller;
 
 import com.company.crm.dto.CompanySummaryDto;
 import com.company.crm.entity.Company;
+import com.company.crm.service.CompanyServiceImpl;
 import com.company.crm.service.CompanyService;
-import com.company.crm.service.ICompanyService;
 import com.company.crm.util.MinSizeConstraint;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping(path = "/company/")
 public class CompanyController {
 
-    private final ICompanyService companyService;
+    private final CompanyService companyService;
 
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
+    public CompanyController(CompanyServiceImpl companyServiceImpl) {
+        this.companyService = companyServiceImpl;
     }
 
     @PostMapping("import")
