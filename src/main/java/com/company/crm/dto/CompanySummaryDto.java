@@ -15,7 +15,7 @@ import java.sql.SQLException;
 @AllArgsConstructor
 public class CompanySummaryDto implements RowMapper<CompanySummaryDto> {
     private String companyName;
-    private Integer threadCount;
+    private Integer conversationCount;
     private String mostPopularUser;
 
     /**
@@ -33,7 +33,7 @@ public class CompanySummaryDto implements RowMapper<CompanySummaryDto> {
     public CompanySummaryDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         CompanySummaryDto dto = new CompanySummaryDto();
         dto.companyName = rs.getString(1);
-        dto.threadCount = rs.getInt(2);
+        dto.conversationCount = rs.getInt(2);
         dto.mostPopularUser = rs.getString(3);
         return dto;
     }

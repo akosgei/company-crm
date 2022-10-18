@@ -19,26 +19,16 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * So, how should you name a test [unit or integration] test? I’ve seen and tried a lot of naming conventions over the past decade. One of the most prominent, and probably least helpful, is
+ * the following convention:
+ * [MethodUnderTest]_[Scenario]_[ExpectedResult]
+ */
 
 @ContextConfiguration(classes = {FilterCompanyBySignUpDateWithinRule.class})
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application.properties")
 class FilterCompanyBySignUpDateWithinRuleTest {
-    /**
-     * We initialize the Conversation object to be reused by multiple tests because the tests under control are determined by the presence of a conversation instance or not.
-     */
-    static Conversation sampleConversation;
-
-    static {
-        sampleConversation = Conversation.builder()
-                .id(111L)
-                .from("demo_one@mail.com")
-                .received(LocalDateTime.now())
-                .number(1964L)
-                .userId(333L)
-                .threads(Collections.emptySet())
-                .build();
-    }
 
     @Autowired
     private FilterCompanyBySignUpDateWithinRule filterCompanyBySignUpDateWithinRule;
@@ -53,13 +43,13 @@ class FilterCompanyBySignUpDateWithinRuleTest {
                 .id(1L)
                 .name("company xyz")
                 .signedUp(LocalDateTime.of(2018, 10, 30, 0, 0, 0))
-                .conversations(Set.of(sampleConversation))
+                .conversations(Set.of(getSampleConversation()))
                 .build();
         Company company2 = com.company.crm.entity.Company.builder()
                 .id(1L)
                 .name("company abc")
                 .signedUp(LocalDateTime.of(2017, 12, 31, 23, 59, 59))
-                .conversations(Set.of(sampleConversation))
+                .conversations(Set.of(getSampleConversation()))
                 .build();
         List<Company> companyList = new ArrayList<>(List.of(company1, company2));
         filterCompanyBySignUpDateWithinRule.execute(companyList);
@@ -75,7 +65,7 @@ class FilterCompanyBySignUpDateWithinRuleTest {
                 .id(1L)
                 .name("company xyz")
                 .signedUp(LocalDateTime.of(2018, 10, 30, 0, 0, 0))
-                .conversations(Set.of(sampleConversation))
+                .conversations(Set.of(getSampleConversation()))
                 .build();
         Company company2 = com.company.crm.entity.Company.builder()
                 .id(1L)
@@ -96,7 +86,7 @@ class FilterCompanyBySignUpDateWithinRuleTest {
                 .id(1L)
                 .name("company xyz")
                 .signedUp(LocalDateTime.of(2019, 10, 30, 0, 0, 0))
-                .conversations(Set.of(sampleConversation))
+                .conversations(Set.of(getSampleConversation()))
                 .build();
         List<Company> companyList = new ArrayList<>(Collections.singletonList(company));
         filterCompanyBySignUpDateWithinRule.execute(companyList);
@@ -127,6 +117,22 @@ class FilterCompanyBySignUpDateWithinRuleTest {
     @Test
     void testConstructor() {
         assertThat(BusinessRules.BusinessRule.FILTER_BY_SIGN_UP_DATE_RULE).isEqualTo(new FilterCompanyBySignUpDateWithinRule().getBusinessRule());
+    }
+
+    /**
+     * We initialize the Conversation object to be reused by multiple tests because the tests under control are determined by the presence of a conversation instance or not.
+     *
+     * @return {@link Conversation} instance
+     */
+    private static Conversation getSampleConversation() {
+        return Conversation.builder()
+                .id(111L)
+                .from("demo_one@mail.com")
+                .received(LocalDateTime.now())
+                .number(1964L)
+                .userId(333L)
+                .threads(Collections.emptySet())
+                .build();
     }
 }
 

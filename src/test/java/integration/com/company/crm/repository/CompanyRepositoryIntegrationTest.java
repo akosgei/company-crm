@@ -72,9 +72,9 @@ public class CompanyRepositoryIntegrationTest {
 
         //then assert
         assertThat(2).isEqualTo(response.size());
-        assertThat(response.get(0).getThreadCount()).isEqualTo(3);
+        assertThat(response.get(0).getConversationCount()).isEqualTo(3);
         assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
-        assertThat(response.get(1).getThreadCount()).isEqualTo(1);
+        assertThat(response.get(1).getConversationCount()).isEqualTo(1);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class CompanyRepositoryIntegrationTest {
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
         //then
         assertThat(1).isEqualTo(response.size());
-        assertThat(0).isEqualTo(response.get(0).getThreadCount());
+        assertThat(0).isEqualTo(response.get(0).getConversationCount());
         assertThat(response.get(0).getMostPopularUser()).isNullOrEmpty();
     }
 
@@ -148,7 +148,7 @@ public class CompanyRepositoryIntegrationTest {
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
         //then
         assertThat(1).isEqualTo(response.size());
-        assertThat(1).isEqualTo(response.get(0).getThreadCount());
+        assertThat(1).isEqualTo(response.get(0).getConversationCount());
         assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
     }
 }

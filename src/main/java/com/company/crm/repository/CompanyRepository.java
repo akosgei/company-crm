@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepository extends PagingAndSortingRepository<Company, Long> {
-    @Query(rowMapperClass = CompanySummaryDto.class, value = "SELECT com.name as companyName, count( conv.conversation_id) as threadCount, conv.user_id as mostPopularUser, from company com" +
+    @Query(rowMapperClass = CompanySummaryDto.class, value = "SELECT com.name as companyName, count( conv.conversation_id) as conversationCount, conv.user_id as mostPopularUser, from company com" +
             " left join conversation conv on com.company_id = conv.company" +
             " left join thread th on conv.conversation_id = th.conversation" +
             "  where com.company_id = :company_id group by com.name ,conv.user_id")
