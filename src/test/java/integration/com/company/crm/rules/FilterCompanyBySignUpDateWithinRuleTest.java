@@ -25,9 +25,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * [MethodUnderTest]_[Scenario]_[ExpectedResult]
  */
 
+/**
+ * Replace the next two lines with {@Link }
+ * <code>
+ *   @SpringJunitConfig
+ * </code>
+ */
 @ContextConfiguration(classes = {FilterCompanyBySignUpDateWithinRule.class})
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(locations = "classpath:application.properties")
+@TestPropertySource(locations = "classpath:application.yml")
 class FilterCompanyBySignUpDateWithinRuleTest {
 
     @Autowired

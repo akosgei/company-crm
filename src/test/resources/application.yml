@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: local
+
+  datasource:
+    url: jdbc:h2:mem:helpscout
+    driver-class-name: org.h2.Driver
+    username: helpscout
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+logging:
+  level:
+    org.springframework.jdbc.core: DEBUG
+
+crm.rule.filterSignUpDateTo:  2018-11-01T00:00:00
+crm.rule.filterSignUpDateFrom: 2017-12-31T23:59:58
