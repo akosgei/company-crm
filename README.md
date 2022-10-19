@@ -6,16 +6,7 @@ customers via email, chat and proactive knowledge base support.
 In this project you'll be working on an incomplete API that imports multiple companies and their relevant data. Your task
 will be to enhance the current importing endpoint, apply filtering rules and add an endpoint to expose the newly-imported data.
 
-## Our expectations
-
-So far we've been really impressed with your technical skills and your attitude. This project is looking at your ability to write 
-clean code with suitable tests and make pragmatic decisions with trade-offs. Time is always a constraint in life, so 
-we'd prefer to see a smaller project of high quality than completing every task in a rushed manner. If there is something
-you don't get around to implementing, just note it in the post-mortem. Feel free to ask any clarifying questions
-that you'd like!
-
-After the project is complete, please send us an invoice for $200 for the time you spent to finance@helpscout.com. 
-Please include your banking details, so our finance team can pay you!
+ 
 
 ## What you're starting with
 
@@ -26,8 +17,8 @@ of Java and Kotlin. You may use either language.
 You can view the in-memory database at http://localhost:8080/h2-console/ when running the application. Use the following details
 to connect:
 - Driver class: `org.h2.Driver`
-- JDBC URL: `jdbc:h2:mem:helpscout`
-- User Name: `helpscout`
+- JDBC URL: `jdbc:h2:mem:crmdb`
+- User Name: `crm`
 - Password: [blank]
 
 The supplied JSON import file contains a hierarchy of an array of companies. Each company may have an array of conversations, 
