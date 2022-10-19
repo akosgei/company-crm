@@ -1,7 +1,9 @@
 spring:
   profiles:
     active: local
-
+  output:
+    ansi:
+      enabled: ALWAYS
   datasource:
     url: jdbc:h2:mem:crmdb
     driver-class-name: org.h2.Driver
@@ -15,6 +17,10 @@ spring:
 logging:
   level:
     org.springframework.jdbc.core: DEBUG
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
 
-crm.rule.filterSignUpDateTo:  2018-11-01T00:00:00
+
+crm.rule.filterSignUpDateTo: 2018-11-01T00:00:00
 crm.rule.filterSignUpDateFrom: 2017-12-31T23:59:58
