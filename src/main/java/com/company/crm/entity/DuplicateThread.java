@@ -15,5 +15,5 @@ public class DuplicateThread {
     private Long id;
     private String payload;
     @Transient
-    Long conversationId;
+    Conversation conversation;
 }
