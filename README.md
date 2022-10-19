@@ -1,4 +1,4 @@
-# Help Scout Java engineer follow-up project
+# CRM project
 
 Conversations are the bread and butter of Help Scout's systems. Our domain space revolves around companies helping their
 customers via email, chat and proactive knowledge base support. 
