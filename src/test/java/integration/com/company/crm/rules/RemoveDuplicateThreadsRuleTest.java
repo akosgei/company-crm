@@ -90,8 +90,9 @@ class RemoveDuplicateThreadsRuleTest {
                 .conversations(Set.of(conversation))
                 .build();
         List<Company> companies = new ArrayList<>(List.of(company));
-
+        //when
         removeDuplicateThreadsRule.execute(companies);
+        //then
         assertThat(companies.get(0).getConversations().stream().findFirst().get().getDuplicateThreads().size()).isEqualTo(0);
         assertThat(companies.get(0).getConversations().stream().findFirst().get().getThreads().size()).isEqualTo(2);
     }

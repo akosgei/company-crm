@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-/**Below @SpringJunitConfig annotation bundles in the below two annotations.
-*@ContextConfiguration(classes = {CompanyServiceImpl.class})
-@ExtendWith(SpringExtension.class)
-
-NB: Mock beans are automatically reset after each test method
-* */
+/**
+ * Below @SpringJunitConfig annotation is a composed annotation that bundles in the below two annotations.
+ *
+ * @ContextConfiguration(classes = {CompanyServiceImpl.class})
+ * @ExtendWith(SpringExtension.class) NB: Mock beans are automatically reset after each test method
+ */
 @SpringJUnitConfig(CompanyServiceImpl.class)
 class CompanyServiceImplTest {
     @MockBean
@@ -40,14 +40,14 @@ class CompanyServiceImplTest {
      */
     @Test
     void testSaveCompaniesPassesOnValidData() {
-        when(companyRepository.saveAll(any())).thenReturn((Iterable<Company>) mock(Iterable.class));
+        when(companyRepository.saveAll(any())).thenReturn(mock(Iterable.class));
         when(businessRulesConfiguration.findBusinessRule(any()))
                 .thenReturn(new RemoveDuplicateThreadsRule());
 
         ArrayList<Company> companyList = new ArrayList<>();
         companyList.add(new Company());
         companyServiceImpl.save(companyList);
-        verify(companyRepository).saveAll((Iterable<Company>) any());
+        verify(companyRepository).saveAll(any());
         verify(businessRulesConfiguration, atLeast(1)).findBusinessRule(any());
         assertEquals(2, companyServiceImpl.rulesToExecute.size());
     }
