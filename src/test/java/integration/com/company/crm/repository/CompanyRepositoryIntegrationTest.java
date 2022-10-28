@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DataJdbcTest
-public class CompanyRepositoryIntegrationTest {
+class CompanyRepositoryIntegrationTest {
 
     @Autowired
     CompanyRepository repositoryUnderTest;
 
     @Test
-    public void testCompanyWithValidCompanyId() {
+    void testCompanyWithValidCompanyId() {
         //given
         Thread thread1 = Thread.builder()
                 .id(22563L)
@@ -71,14 +71,14 @@ public class CompanyRepositoryIntegrationTest {
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
 
         //then assert
-        assertThat(2).isEqualTo(response.size());
+        assertThat(response).hasSize(2);
         assertThat(response.get(0).getConversationCount()).isEqualTo(3);
         assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
         assertThat(response.get(1).getConversationCount()).isEqualTo(1);
     }
 
     @Test
-    public void testCompanyWithInvalidCompanyId() {
+    void testCompanyWithInvalidCompanyId() {
         //given
         Thread thread1 = Thread.builder()
                 .id(22563L)
@@ -106,7 +106,7 @@ public class CompanyRepositoryIntegrationTest {
     }
 
     @Test
-    public void testCompanyWithoutConversation() {
+    void testCompanyWithoutConversation() {
         //given
         Company company = com.company.crm.entity.Company.builder()
                 .id(1L)
@@ -119,13 +119,13 @@ public class CompanyRepositoryIntegrationTest {
         //when
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
         //then
-        assertThat(1).isEqualTo(response.size());
-        assertThat(0).isEqualTo(response.get(0).getConversationCount());
+        assertThat(response).hasSize(1);
+        assertThat(response.get(0).getConversationCount()).isZero();
         assertThat(response.get(0).getMostPopularUser()).isNullOrEmpty();
     }
 
     @Test
-    public void testCompanyConversationWithoutThreads() {
+    void testCompanyConversationWithoutThreads() {
         //given
         Conversation conversation = Conversation.builder()
                 .id(111L)
@@ -147,8 +147,8 @@ public class CompanyRepositoryIntegrationTest {
         //when
         List<CompanySummaryDto> response = repositoryUnderTest.retrieveCompanyConversationSummaryByCompanyId(1L);
         //then
-        assertThat(1).isEqualTo(response.size());
-        assertThat(1).isEqualTo(response.get(0).getConversationCount());
+        assertThat(response).hasSize(1);
+        assertThat(response.get(0).getConversationCount()).isEqualTo(1);
         assertThat(response.get(0).getMostPopularUser()).isEqualTo("333");
     }
 }
