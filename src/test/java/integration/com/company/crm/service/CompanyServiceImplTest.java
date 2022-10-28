@@ -7,11 +7,9 @@ import com.company.crm.repository.CompanyRepository;
 import com.company.crm.rules.RemoveDuplicateThreadsRule;
 import com.company.crm.rules.configuration.BusinessRulesConfiguration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {CompanyServiceImpl.class})
+/**Below @SpringJunitConfig annotation bundles in the below two annotations.
+*@ContextConfiguration(classes = {CompanyServiceImpl.class})
 @ExtendWith(SpringExtension.class)
+
+NB: Mock beans are automatically reset after each test method
+* */
+@SpringJUnitConfig(CompanyServiceImpl.class)
 class CompanyServiceImplTest {
     @MockBean
     private BusinessRulesConfiguration businessRulesConfiguration;

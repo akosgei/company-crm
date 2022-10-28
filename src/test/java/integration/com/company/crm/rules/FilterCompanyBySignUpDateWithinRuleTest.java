@@ -4,11 +4,9 @@ import com.company.crm.entity.Company;
 import com.company.crm.entity.Conversation;
 import com.company.crm.exception.ApplicationActivityException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,8 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  *   @SpringJunitConfig
  * </code>
  */
-@ContextConfiguration(classes = {FilterCompanyBySignUpDateWithinRule.class})
-@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig(FilterCompanyBySignUpDateWithinRule.class)
 @TestPropertySource(locations = "classpath:application.yml")
 class FilterCompanyBySignUpDateWithinRuleTest {
 
