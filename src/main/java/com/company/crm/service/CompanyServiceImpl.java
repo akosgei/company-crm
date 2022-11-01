@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,17 +24,15 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    final Map<BusinessRules.BusinessRule, List<Company>> rulesToExecute = new HashMap<>();
+    final Map<BusinessRules.BusinessRule, List<Company>> rulesToExecute = new EnumMap<>(BusinessRules.BusinessRule.class);
 
     private final CompanyRepository companyRepository;
     private final BusinessRulesConfiguration rulesConfiguration;
 
 
     private void executeBusinessRules(List<Company> companies) {
-        {
-            rulesToExecute.put(BusinessRules.BusinessRule.FILTER_BY_SIGN_UP_DATE_RULE, companies);
-            rulesToExecute.put(BusinessRules.BusinessRule.REMOVE_DUPLICATE_THREADS_RULE, companies);
-        }
+        rulesToExecute.put(BusinessRules.BusinessRule.FILTER_BY_SIGN_UP_DATE_RULE, companies);
+        rulesToExecute.put(BusinessRules.BusinessRule.REMOVE_DUPLICATE_THREADS_RULE, companies);
 
         rulesToExecute.forEach((businessRule, payload) -> {
             BusinessRules<Company> rule = rulesConfiguration.findBusinessRule(businessRule);

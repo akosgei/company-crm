@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class CompanyControllerJavaIT {
+class CompanyControllerJavaIT {
 
     @Autowired
     TestRestTemplate restTemplate;
@@ -27,7 +27,7 @@ public class CompanyControllerJavaIT {
     ObjectMapper mapper;
 
     @Test
-    public void testImportCompanies() throws IOException {
+    void testImportCompanies() throws IOException {
 
         //given some stuff
         File file = ResourceUtils.getFile("classpath:companies.json");
