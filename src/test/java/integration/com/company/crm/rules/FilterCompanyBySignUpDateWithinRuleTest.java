@@ -113,7 +113,7 @@ class FilterCompanyBySignUpDateWithinRuleTest {
      */
     @Test
     void testConstructor() {
-        assertThat(BusinessRules.BusinessRule.FILTER_BY_SIGN_UP_DATE_RULE).isEqualTo(new FilterCompanyBySignUpDateWithinRule().getBusinessRule());
+        assertThat(new FilterCompanyBySignUpDateWithinRule().getBusinessRule()).isEqualTo(BusinessRules.BusinessRule.FILTER_BY_SIGN_UP_DATE_RULE);
     }
 
     /**
