@@ -1,3 +1,4 @@
+server.port: 8080
 spring:
   profiles:
     active: local
@@ -13,14 +14,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
-logging:
-  level:
-    org.springframework.jdbc.core: DEBUG
-  pattern:
-    console: "%d %-5level %logger : %msg%n"
-    file: "%d %-5level [%thread] %logger : %msg%n"
-
 
 crm.rule.filterSignUpDateTo: 2018-11-01T00:00:00
 crm.rule.filterSignUpDateFrom: 2017-12-31T23:59:58

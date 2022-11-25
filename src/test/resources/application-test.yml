@@ -1,3 +1,4 @@
+server.port: 8090
 spring:
   profiles:
     active: local
@@ -12,12 +13,5 @@ spring:
       enabled: true
       path: /h2-console
 
-logging:
-  level:
-    org.springframework.jdbc.core: DEBUG
-
 crm.rule.filterSignUpDateTo:  2018-11-01T00:00:00
 crm.rule.filterSignUpDateFrom: 2017-12-31T23:59:58
-
-
-server.port: 8090
