@@ -18,3 +18,6 @@ logging:
 
 crm.rule.filterSignUpDateTo:  2018-11-01T00:00:00
 crm.rule.filterSignUpDateFrom: 2017-12-31T23:59:58
+
+
+server.port: 8090
