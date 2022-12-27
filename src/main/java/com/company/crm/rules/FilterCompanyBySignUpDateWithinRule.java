@@ -43,7 +43,7 @@ public class FilterCompanyBySignUpDateWithinRule implements BusinessRules<Compan
             companies
                     .removeIf(company -> (company.getSignedUp()
                             .isBefore(endDate) && company.getSignedUp()
-                            .isAfter(startDate) && company.getConversations().size() > 0));
+                            .isAfter(startDate) && !company.getConversations().isEmpty()));
         } catch (RuntimeException exception) {
             log.error("Error filtering records by date within date range, actual exception message is : {}", exception.getMessage(), exception);
             throw new ApplicationActivityException(ApplicationErrorMessages.FILTER_SIGNUP_BY_DATE_EXECUTION_ERROR, HttpStatus.BAD_REQUEST); //could be as a result of bad data, TODO:// implement validations on DTO members
