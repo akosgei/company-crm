@@ -39,7 +39,7 @@
     </root>
 
     <!-- LOG "com.company.crm.repository*" at TRACE level -->
-    <logger name="com.company.crm.repository" level="trace" additivity="false">
+    <logger name="com.company.crm.repository" level="debug" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>

@@ -1,6 +1,7 @@
 package com.company.crm.entity;
 
 
+import com.company.crm.util.MaxSizeInterface;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @NotNull
 @Builder
-public class Company {
+public class Company implements MaxSizeInterface {
 
     @Id
     private Long companyId;

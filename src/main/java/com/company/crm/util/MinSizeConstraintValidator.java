@@ -1,12 +1,11 @@
 package com.company.crm.util;
 
-import com.company.crm.entity.Company;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class MinSizeConstraintValidator implements ConstraintValidator<MinSizeConstraint, List<Company>> {
+public class MinSizeConstraintValidator implements ConstraintValidator<MinSizeConstraint, List<? extends MaxSizeInterface>> {
+
     /**
      * Implements the validation logic.
      * The state of {@code value} must not be altered.
@@ -19,7 +18,7 @@ public class MinSizeConstraintValidator implements ConstraintValidator<MinSizeCo
      * @return {@code false} if {@code value} does not pass the constraint
      */
     @Override
-    public boolean isValid(List<Company> value, ConstraintValidatorContext context) {
-        return value.size() > 0;
+    public boolean isValid(List<? extends MaxSizeInterface> value, ConstraintValidatorContext context) {
+        return !value.isEmpty();
     }
 }
