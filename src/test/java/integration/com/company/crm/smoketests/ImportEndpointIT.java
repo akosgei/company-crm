@@ -56,7 +56,6 @@ class ImportEndpointIT {
         );
 
         ResponseEntity<String> response = this.httpClient.getForEntity(URI.create("" + wireMockServer.baseUrl() + "/todos"), String.class);
-
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JSONAssert.assertEquals("{\"todos\":[{\"id\":1,\"todo\":\"Do something nice for someone I care about\",\"completed\":true,\"userId\":26},{\"id\":2,\"todo\":\"Memorize the fifty states and their capitals\",\"completed\":false,\"userId\":48}],\"total\":2,\"skip\":0,\"limit\":30}", response.getBody(), false);
     }
