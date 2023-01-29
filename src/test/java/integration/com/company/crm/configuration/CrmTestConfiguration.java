@@ -1,14 +1,15 @@
 package com.company.crm.configuration;
 
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 @TestConfiguration
 public class CrmTestConfiguration {
 
     @Bean
-    WireMockConfiguration wireMockConfiguration() {
-        return new WireMockConfiguration().httpsPort(9292);
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
     }
 }

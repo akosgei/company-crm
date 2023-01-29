@@ -2,33 +2,32 @@ package com.company.crm.e2e;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 9292)
-//@ContextConfiguration(initializers = {ImportEndpointIT.PropertiesInitializer.class})
 class ImportEndpointIT {
 
     @Autowired
-    RestTemplate webclient;
+    TestRestTemplate httpClient;
 
 
     @Autowired
@@ -38,12 +37,11 @@ class ImportEndpointIT {
     @BeforeEach
     void init() {
         //https://dummyjson.com/todos
-        //webclient//.
     }
 
 
     @DynamicPropertySource
-    static void overrideWebclientBaseUrl(DynamicPropertyRegistry propertyRegistry) {
+    static void overridehttpClientBaseUrl(DynamicPropertyRegistry propertyRegistry) {
         // propertyRegistry.add();
     }
 
@@ -51,7 +49,7 @@ class ImportEndpointIT {
     @Test
     void testWireMock() {
         assertThat(wireMockServer.isRunning()).isTrue();
-        System.out.println("Base uri: "+ wireMockServer.baseUrl());
+        log.info("Base uri: {}", wireMockServer.baseUrl());
     }
 
     @Test
@@ -63,12 +61,11 @@ class ImportEndpointIT {
                                 .withBody("[]"))
         );
 
-        ResponseEntity<String> response = this.webclient.getForEntity(URI.create("" + wireMockServer.baseUrl() + "/todos"), String.class);
+        ResponseEntity<String> response = this.httpClient.getForEntity(URI.create("" + wireMockServer.baseUrl() + "/todos"), String.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo("[]");
 
-
-        .expectStatus().isOk().expectBody().jsonPath("$.length()").isEqualTo(0);
     }
 /*
     class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
