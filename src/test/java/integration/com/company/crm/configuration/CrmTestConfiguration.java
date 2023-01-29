@@ -12,4 +12,17 @@ public class CrmTestConfiguration {
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
+    //TODO: custom injection of properties into the application context
+    /*
+    class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public PropertiesInitializer() {
+        }
+
+        @Override
+        public void initialize(ConfigurableApplicationContext applicationContext) {
+            TestPropertyValues.of(
+                    "https://dummyjson.com/=" + "http://localhost:" + wireMockServer.port()
+            ).applyTo(applicationContext.getEnvironment());
+        }
+    }*/
 }

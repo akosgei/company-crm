@@ -3,8 +3,9 @@ package com.company.crm.e2e;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -33,16 +34,9 @@ class ImportEndpointIT {
     @Autowired
     WireMockServer wireMockServer;
 
-
-    @BeforeEach
-    void init() {
-        //https://dummyjson.com/todos
-    }
-
-
     @DynamicPropertySource
-    static void overridehttpClientBaseUrl(DynamicPropertyRegistry propertyRegistry) {
-        // propertyRegistry.add();
+    static void overrideProperties(DynamicPropertyRegistry propertyRegistry) {
+        propertyRegistry.add("some defined property", () -> "some desired value");
     }
 
 
@@ -53,30 +47,17 @@ class ImportEndpointIT {
     }
 
     @Test
-    void basicWireMockExample() {
+    void basicWireMockExample() throws JSONException {
         wireMockServer.stubFor(
                 WireMock.get(urlEqualTo("/todos"))
                         .willReturn(aResponse()
                                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                                .withBody("[]"))
+                                .withBodyFile("import-endpoint/todo.json"))
         );
 
         ResponseEntity<String> response = this.httpClient.getForEntity(URI.create("" + wireMockServer.baseUrl() + "/todos"), String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("[]");
-
+        JSONAssert.assertEquals("{\"todos\":[{\"id\":1,\"todo\":\"Do something nice for someone I care about\",\"completed\":true,\"userId\":26},{\"id\":2,\"todo\":\"Memorize the fifty states and their capitals\",\"completed\":false,\"userId\":48}],\"total\":2,\"skip\":0,\"limit\":30}", response.getBody(), false);
     }
-/*
-    class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public PropertiesInitializer() {
-        }
-
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                    "https://dummyjson.com/=" + "http://localhost:" + wireMockServer.port()
-            ).applyTo(applicationContext.getEnvironment());
-        }
-    }*/
 }
