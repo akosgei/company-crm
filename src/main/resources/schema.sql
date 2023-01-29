@@ -1,6 +1,6 @@
 --company
 
-create table Company
+create table if not exists Company
 (
     company_id long auto_increment primary key,
     id         long         not null,
@@ -10,7 +10,7 @@ create table Company
 
 -- conversation
 
-create table Conversation
+create table if not exists Conversation
 (
     conversation_id long auto_increment primary key,
     id              long not null,
@@ -24,7 +24,7 @@ create table Conversation
 
 -- thread
 
-create table Thread
+create table if not exists Thread
 (
     thread_id    long auto_increment primary key,
     id           long not null,
@@ -35,7 +35,7 @@ create table Thread
 
 -- duplicate thread
 
-create table Duplicate_Thread
+create table if not exists Duplicate_Thread
 (
     duplicate_thread_id long auto_increment primary key,
     id                  long not null,

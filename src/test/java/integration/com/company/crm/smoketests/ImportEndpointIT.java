@@ -1,5 +1,6 @@
-package com.company.crm.e2e;
+package com.company.crm.smoketests;
 
+import com.company.crm.configuration.CrmTestConfiguration;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,12 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWireMock(port = 9292)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {CrmTestConfiguration.class})
+@AutoConfigureWireMock(port = 9292, httpsPort = 9393)
 class ImportEndpointIT {
 
     @Autowired
     TestRestTemplate httpClient;
-
 
     @Autowired
     WireMockServer wireMockServer;
