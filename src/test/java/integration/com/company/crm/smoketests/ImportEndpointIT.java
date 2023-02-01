@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,34 +29,43 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureWireMock(port = 9292, httpsPort = 9393)
 class ImportEndpointIT {
 
+    static WireMockServer staticWireMock;
+
     @Autowired
     TestRestTemplate httpClient;
 
     @Autowired
-    WireMockServer wireMockServer;
+    Environment environment;
+
+    @Autowired
+    void setWireMockServer(WireMockServer wireMockServer) {
+        staticWireMock = wireMockServer;
+    }
+
 
     @DynamicPropertySource
     static void overrideProperties(DynamicPropertyRegistry propertyRegistry) {
-        propertyRegistry.add("some defined property", () -> "some desired value");
+        propertyRegistry.add("wireMockPort", () -> staticWireMock.httpsPort());
     }
 
 
     @Test
     void testWireMock() {
-        assertThat(wireMockServer.isRunning()).isTrue();
-        log.info("Base uri: {}", wireMockServer.baseUrl());
+        assertThat(staticWireMock.isRunning()).isTrue();
+        log.info("Base uri: {}", staticWireMock.baseUrl());
+        log.info("Base port: {}", environment.getProperty("wireMockPort"));
     }
 
     @Test
     void basicWireMockExample() throws JSONException {
-        wireMockServer.stubFor(
+        staticWireMock.stubFor(
                 WireMock.get(urlEqualTo("/todos"))
                         .willReturn(aResponse()
                                 .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                                 .withBodyFile("import-endpoint/todo.json"))
         );
 
-        ResponseEntity<String> response = this.httpClient.getForEntity(URI.create("" + wireMockServer.baseUrl() + "/todos"), String.class);
+        ResponseEntity<String> response = this.httpClient.getForEntity(URI.create("" + staticWireMock.baseUrl() + "/todos"), String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JSONAssert.assertEquals("{\"todos\":[{\"id\":1,\"todo\":\"Do something nice for someone I care about\",\"completed\":true,\"userId\":26},{\"id\":2,\"todo\":\"Memorize the fifty states and their capitals\",\"completed\":false,\"userId\":48}],\"total\":2,\"skip\":0,\"limit\":30}", response.getBody(), false);
     }
