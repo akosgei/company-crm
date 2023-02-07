@@ -59,13 +59,13 @@ public class CompanyServiceImpl implements CompanyService {
             log.error("Company with supplied id, {} does not exist.", companyId);
             throw new ApplicationActivityException(ApplicationErrorMessages.COMPANY_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
-        /**
-         * we create a map of <countOfConversationsPerUser, List<ThepopularUser>>
+        /*
+          we create a map of <countOfConversationsPerUser, List<ThepopularUser>>
          */
         Map<Integer, List<Integer>> threadToUserMap = companySummaryResult.stream()
                 .collect(groupingBy(CompanySummaryDto::getConversationCount, mapping((CompanySummaryDto companySummaryDto) -> Integer.valueOf(companySummaryDto.getMostPopularUser()), toList())));
 
-        /**
+        /*
          From the map above, we iterate to compare which map entry has the highest value,
          there is a possibility that it could be more than one use, hence storing the results of this computation in a list
          */
@@ -75,8 +75,8 @@ public class CompanyServiceImpl implements CompanyService {
                 .max(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
                 .orElseThrow(() -> new ApplicationActivityException(ApplicationErrorMessages.DATA_INTEGRITY_ERROR, HttpStatus.INTERNAL_SERVER_ERROR));
-        /**
-         * We construct the response payload, most popular user would contain more than one user, hence the joining them in a string with a comma separator
+        /*
+          We construct the response payload, most popular user would contain more than one user, hence the joining them in a string with a comma separator
          */
         return CompanySummaryDto.builder()
                 .companyName(companySummaryResult.get(0).getCompanyName()) // the company will always be the same
